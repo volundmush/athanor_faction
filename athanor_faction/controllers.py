@@ -24,8 +24,8 @@ class AthanorFactionController(AthanorGlobalScript):
     def at_start(self):
         from django.conf import settings
         try:
-            self.ndb.faction_typeclass = class_from_module(settings.BASE_FACTION_TYPECLASS,
-                                                         defaultpaths=settings.TYPECLASS_PATHS)
+            get_typeclass = getattr(settings, "BASE_FACTION_TYPECLASS",  "athanor.gamedb.factions.AthanorFaction")
+            self.ndb.faction_typeclass = class_from_module(get_typeclass, defaultpaths=settings.TYPECLASS_PATHS)
         except Exception:
             log_trace()
             self.ndb.faction_typeclass = AthanorFaction
